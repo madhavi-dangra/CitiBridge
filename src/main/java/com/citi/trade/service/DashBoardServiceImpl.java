@@ -62,8 +62,11 @@ public class DashBoardServiceImpl implements DashboardService{
 			String topGainerCompanySymbol = topGainer.get(0).getSymbol();
 
 			try {
-				Stock topGainerCompanyName = YahooFinance.get(topGainerCompanySymbol);
-				historyOfTopGainer = topGainerCompanyName.getHistory(from, to, Interval.DAILY);
+				if(topGainerCompanySymbol != null) {
+					Stock topGainerCompanyName = YahooFinance.get(topGainerCompanySymbol);
+					historyOfTopGainer = topGainerCompanyName.getHistory(from, to, Interval.DAILY);
+				}
+
 			} catch (IOException e) {
 
 			}
