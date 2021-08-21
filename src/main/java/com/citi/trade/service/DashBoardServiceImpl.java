@@ -51,6 +51,7 @@ public class DashBoardServiceImpl implements DashboardService{
 		Calendar to = Calendar.getInstance();
 		from.add(Calendar.WEEK_OF_MONTH, noofWeeks);
 
+		List<HistoricalQuote> historyOfTopGainer = new ArrayList<>();
 		if (!topGainer.isEmpty()) {
 			topGainer.sort((s1, s2) -> {
 				if (s1 != null && s2 != null && s1.getCurrentPrice() != null && s2.getCurrentPrice() != null)
@@ -58,16 +59,16 @@ public class DashBoardServiceImpl implements DashboardService{
 				else
 					return 0;
 			});
-		}
-		String topGainerCompanySymbol = topGainer.get(0).getSymbol();
+			String topGainerCompanySymbol = topGainer.get(0).getSymbol();
 
-		List<HistoricalQuote> historyOfTopGainer = new ArrayList<>();
-		try {
-			Stock topGainerCompanyName = YahooFinance.get(topGainerCompanySymbol);
-			historyOfTopGainer = topGainerCompanyName.getHistory(from, to, Interval.DAILY);
-		} catch (IOException e) {
+			try {
+				Stock topGainerCompanyName = YahooFinance.get(topGainerCompanySymbol);
+				historyOfTopGainer = topGainerCompanyName.getHistory(from, to, Interval.DAILY);
+			} catch (IOException e) {
 
+			}
 		}
+
 		return historyOfTopGainer;
 	}
 
@@ -106,7 +107,6 @@ public class DashBoardServiceImpl implements DashboardService{
 		return stockData;
 
 	}
-
 
 }
 
