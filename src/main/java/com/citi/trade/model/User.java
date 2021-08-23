@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "User")
+@Table(name = "user")
 public class User {
 
 	@Id
@@ -20,6 +20,32 @@ public class User {
 	
 	@Column(name="userName")
 	String userName;
+	
+	@Column(name="firstName")
+	String firstName;
+	
+	@Column(name="lastName")
+	String lastName;
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+
+	public String getLastName() {
+		return lastName;
+	}
+
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
 
 	public Long getUserId() {
 		return userId;
@@ -50,17 +76,10 @@ public class User {
 		this.userName = userName;
 	}
 
+
 	@Override
 	public String toString() {
-		return "UserMaster [userId=" + userId + ", password=" + password + "]";
+		return "User [userId=" + userId + ", password=" + password + ", userName=" + userName + ", firstName="
+				+ firstName + ", lastName=" + lastName + "]";
 	}
-
-
-	
-
-	
-
-    
-    
-
 }

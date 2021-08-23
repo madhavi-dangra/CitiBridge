@@ -6,5 +6,5 @@ import com.citi.trade.model.User;
 
 public interface UserService {
 
-	boolean checkLogin(User userObject);
+	User checkLogin(User userObject); //to check registered user
 }

@@ -8,9 +8,9 @@ import yahoofinance.histquotes.HistoricalQuote;
 
 public interface DashboardService {
 	
-	public List<StockDetails> getPriceShockers();
-	public List<StockDetails> getVolumeShokers();
-	public List<HistoricalQuote> getTopGainer();
-	public String getTopGainerCompanyName();
+	public List<StockDetails> getPriceShockers(); //finding price shockers of all companies mention in comapnylist
+	public List<StockDetails> getVolumeShokers(); //finding volume shockers of all companies mention in comapnylist
+	public List<HistoricalQuote> getTopGainer(); //finding top gainer from past two week data
+	
 
 }

@@ -8,8 +8,7 @@ import com.citi.trade.model.UserHistory;
 
 public interface UserHistoryService {
 	 public List<UserHistory> findAll();
-	    public void save(UserHistory userInfo);
-	    public void deleteById(Long Id);
-	    public UserHistory findById(Long Id);
+	    public void save(UserHistory userInfo); //to save userHistory
+	    public List<UserHistory> findByUserName(String userName); //find user by username
 	   
 }

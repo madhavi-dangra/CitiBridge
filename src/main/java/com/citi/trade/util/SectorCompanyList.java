@@ -22,29 +22,32 @@ public class SectorCompanyList {
 								"BANKINDIA.NS","CANBK.NS","IOB.NS","MAHABANK.NS","UCOBANK.NS","J&KBANK.NS","YESBANK.NS",
 								"RBLBANK.NS"))),
 				new AbstractMap.SimpleEntry<String, List<String>>("FMCG",
-						new ArrayList<>(Arrays.asList("EMAMILTD.NS","PGHH.NS","TATACONSUM.NS","BRITANNIA.NS","GODREJCP.NS","COLPAL.NS",
-								"NESTLEIND.NS","DABUR.NS","JUBLFOOD.NS","MARICO.NS","HINDUNILVR.NS","ITC.NS","MCDOWELL-N.NS","VBL.NS","UBL.NS"))),
+						new ArrayList<>(Arrays.asList("EMAMILTD.NS","PGHH.NS","TATACONSUM.NS","GODREJCP.NS","COLPAL.NS",
+								"NESTLEIND.NS","DABUR.NS","JUBLFOOD.NS","MARICO.NS","ITC.NS","MCDOWELL-N.NS","VBL.NS","UBL.NS"))),
 				
 				new AbstractMap.SimpleEntry<String, List<String>>("Metal",
 						new ArrayList<>(Arrays.asList("RATNAMANI.NS","HINDALCO.NS","COALINDIA.NS","VEDL.NS","NATIONALUM.NS","APLAPOLLO.NS",
 								"MOIL.NS","TATASTEEL.NS","JINDALSTEL.NS","HINDZINC.NS","JSWSTEEL.NS","WELCORP.NS","SAIL.NS","ADANIENT.NS","NMDC.NS"))),
 				
-				new AbstractMap.SimpleEntry<String, List<String>>("Pharma",
+				new AbstractMap.SimpleEntry<String, List<String>>("Pharmaceuticals",
 						new ArrayList<>(Arrays.asList("CIPLA.NS","SUNPHARMA.NS","DRREDDY.NS","LUPIN.NS","TORNTPHARM.NS","BIOCON.NS","ALKEM.NS",
 								"CADILAHC.NS","AUROPHARMA.NS","DIVISLAB.NS","PFIZER.NS","GLAXO.NS","PGHL.NS","ASTRAZEN.NS","NATCOPHARM.NS",
 								"APLLTD.NS","AJANTPHARM.NS","STAR.NS"))),
 				
 				new AbstractMap.SimpleEntry<String, List<String>>("Cement",
 						new ArrayList<>(Arrays.asList("ASIANPAINT.NS", "BRITANNIA.NS", "HINDUNILVR.NS", "ITC.NS",
-								"NESTLEIND.NS", "TITAN.NS","ULTRACEMCO.NS"))),
+								"NESTLEIND.NS", "TITAN.NS","ULTRACEMCO.NS","ACC.NS","AMBUJACEM.NS","BIRLACORPN.NS","DALBHARAT.NS","GRASIM.NS",
+								"HEIDELBERG.NS","INDIACEM.NS","JKCEMENT.NS","JKLAKSHMI.NS"))),
 				
 				new AbstractMap.SimpleEntry<String, List<String>>("Energy",
 						new ArrayList<>(Arrays.asList("BPCL.NS", "GAIL.NS", "IOC.NS", "ONGC.NS", "RELIANCE.NS", "NTPC.NS",
-								"POWERGRID.NS","ADANIGREEN.NS","HINDPETRO.NS","TATAPOWER.NS"))),
+								"POWERGRID.NS","ADANIGREEN.NS","HINDPETRO.NS","TATAPOWER.NS","ATGL.NS","CASTROLIND.NS","GUJGASLTD.NS","GSPL.NS"
+								,"GULFOILLUB.NS","IGL.NS","MGL.NS"))),
 				
 				new AbstractMap.SimpleEntry<String, List<String>>("Information Technology",
 						new ArrayList<>(Arrays.asList("HCLTECH.NS", "INFY.NS", "TCS.NS", "TECHM.NS", "WIPRO.NS","TATAELXSI.NS","OFSS.NS",
-								"LTI.NS","MINDTREE.NS","TECHM.NS","MPHASIS.NS","COFORGE.NS"))));
+								"LTI.NS","MINDTREE.NS","TECHM.NS","MPHASIS.NS","COFORGE.NS","AFFLE.NS","BSOFT.NS","CYIENT.NS","FSL.NS"
+								,"HAPPSTMNDS.NS","INFIBEAM.NS"))));
 
 		return sectorCompanyList;
 

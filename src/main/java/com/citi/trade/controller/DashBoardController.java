@@ -44,11 +44,7 @@ public class DashBoardController {
 		return  dashboardService.getTopGainer();
 	}
 	
-	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@GetMapping("/getTopGainersCompanyName")
-	public String getTopGainerCompanyName() throws IOException {
-		return  dashboardService.getTopGainerCompanyName();
-	}
+	
 	
 	
 }

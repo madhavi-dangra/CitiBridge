@@ -2,6 +2,7 @@ package com.citi.trade.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,187 +21,37 @@ public class DashBoardServiceImpl implements DashboardService{
 
 
 	Map<String, List<String>> sectorWiseCompanies = SectorCompanyList.sectorWiseCompany();
-	//private List<HistoricalQuote> historyOfTopGainer;
-
 	public List<StockDetails> getPriceShockers() {
-
-		List<StockDetails> priceShockers = new ArrayList<>();
-		Set<String> sectorList = sectorWiseCompanies.keySet();
-		try {
-			sectorList.forEach(sector -> {
-				List<String> companyList = new ArrayList<>(sectorWiseCompanies.get(sector));
-				String[] tmpStockList = new String[companyList.size()];
-				for (int i = 0; i < companyList.size(); i++) {
-					tmpStockList[i] = companyList.get(i);
-
-				}
-				try {
-					Map<String, Stock> stocks = YahooFinance.get(tmpStockList);
-					List<Stock> apiStockData = new ArrayList<>(stocks.values());
-					if (!ObjectUtils.isEmpty(apiStockData)) {
-						apiStockData.forEach(stock -> {
-							StockDetails stockDetails = new StockDetails();
-							stockDetails.setCompanyName(stock.getName());
-							stockDetails.setCurrentPrice(stock.getQuote().getPrice());
-							stockDetails.setPercentageChange(stock.getQuote().getChangeInPercent());
-							stockDetails.setSector(sector);
-							priceShockers.add(stockDetails);
-
-						});
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			});
-
-
-			if (!priceShockers.isEmpty()) priceShockers.sort((s1, s2) -> {
-				if (s1 != null && s2 != null && s1.getPercentageChange() != null && s2.getPercentageChange() != null)
-					return s2.getPercentageChange().compareTo(s1.getPercentageChange());
-				else
-					return 0;
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		List<StockDetails> priceShockers = getStockData();
+		if (!priceShockers.isEmpty()) priceShockers.sort((s1, s2) -> {
+			if (s1 != null && s2 != null && s1.getPercentageChange() != null && s2.getPercentageChange() != null)
+				return s2.getPercentageChange().compareTo(s1.getPercentageChange());
+			else
+				return 0;
+		});
 		return priceShockers;
 	}
 
-
-
 	public List<StockDetails> getVolumeShokers() {
-
-		List<StockDetails> volumeShockers = new ArrayList<>();
-		Set<String> sectorList = sectorWiseCompanies.keySet();
-		try {
-			sectorList.forEach(sector -> {
-				List<String> companyList = new ArrayList<>(sectorWiseCompanies.get(sector));
-				String[] tmpStockList = new String[companyList.size()];
-				for (int i = 0; i < companyList.size(); i++) {
-					tmpStockList[i] = companyList.get(i);
-
-				}
-				Map<String, Stock> stocks;
-
-				try {
-					stocks = YahooFinance.get(tmpStockList);
-					List<Stock> apiStockData = new ArrayList<>(stocks.values());
-					if (!ObjectUtils.isEmpty(apiStockData)) {
-						apiStockData.forEach(stock -> {
-							StockDetails stockDetails = new StockDetails();
-							stockDetails.setCompanyName(stock.getName());
-							stockDetails.setVolume(stock.getQuote().getVolume());
-							stockDetails.setSector(sector);
-							volumeShockers.add(stockDetails);
-						});
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			});
-
-
-			if (!volumeShockers.isEmpty()) volumeShockers.sort((s1, s2) -> {
-				if (s1 != null && s2 != null && s1.getVolume() != null && s2.getVolume() != null)
-					return s2.getVolume().compareTo(s1.getVolume());
-				else
-					return 0;
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		List<StockDetails> volumeShockers = getStockData();
+		if (!volumeShockers.isEmpty()) volumeShockers.sort((s1, s2) -> {
+			if (s1 != null && s2 != null && s1.getVolume() != null && s2.getVolume() != null)
+				return s2.getVolume().compareTo(s1.getVolume());
+			else
+				return 0;
+		});
 		return volumeShockers;
-
 	}
 
 	public List<HistoricalQuote> getTopGainer() {
-		//List<StockDetails> recommendedStocks = new ArrayList<>();
-		List<StockDetails> topGainer = new ArrayList<>();
-		Set<String> sectorList = sectorWiseCompanies.keySet();
+		List<StockDetails> topGainer = getStockData();
+		System.out.println(topGainer.size());
 		int noofWeeks = -2; // two weeks
 		Calendar from = Calendar.getInstance();
 		Calendar to = Calendar.getInstance();
 		from.add(Calendar.WEEK_OF_MONTH, noofWeeks);
-		sectorList.forEach(sector -> {
-			List<String> companyList = new ArrayList<>(sectorWiseCompanies.get(sector));
-			String[] tmp = new String[companyList.size()];
-			for (int i = 0; i < companyList.size(); i++) {
-				tmp[i] = companyList.get(i);
-
-			}
-			Map<String, Stock> stocks;
-			try {
-				stocks = YahooFinance.get(tmp);
-				List<Stock> apiStockData = new ArrayList<>(stocks.values());
-				if (!ObjectUtils.isEmpty(apiStockData)) {
-					apiStockData.forEach(stock -> {
-						StockDetails stockDetails = new StockDetails();
-						stockDetails.setCompanyName(stock.getName());
-						stockDetails.setCurrentPrice(stock.getQuote().getPrice());
-						stockDetails.setSector(sector);
-						stockDetails.setSymbol(stock.getSymbol());
-						topGainer.add(stockDetails);
-					});
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
-
-		if (!topGainer.isEmpty()) {
-			topGainer.sort((s1, s2) -> {
-				if (s1 != null && s2 != null && s1.getCurrentPrice() != null && s2.getCurrentPrice() != null)
-					return s2.getCurrentPrice().compareTo(s1.getCurrentPrice());
-				else
-					return 0;
-			});
-		}
-		String topGainerCompanySymbol = topGainer.get(0).getSymbol();
 
 		List<HistoricalQuote> historyOfTopGainer = new ArrayList<>();
-		try {
-			Stock topGainerCompanyName = YahooFinance.get(topGainerCompanySymbol);
-			historyOfTopGainer = topGainerCompanyName.getHistory(from, to, Interval.DAILY);
-		} catch (IOException e) {
-
-		}
-		return historyOfTopGainer;
-	}
-	public String getTopGainerCompanyName() {
-		List<StockDetails> topGainer = new ArrayList<>();
-		//String CompanyName = null;
-		Set<String> sectorList = sectorWiseCompanies.keySet();
-		//int noofWeeks = -2; // two weeks
-		//Calendar from = Calendar.getInstance();
-		//Calendar to = Calendar.getInstance();
-		//from.add(Calendar.WEEK_OF_MONTH, noofWeeks);
-		sectorList.forEach(sector -> {
-			List<String> companyList = new ArrayList<>(sectorWiseCompanies.get(sector));
-			String[] tmp = new String[companyList.size()];
-			for (int i = 0; i < companyList.size(); i++) {
-				tmp[i] = companyList.get(i);
-
-			}
-			Map<String, Stock> stocks;
-			try {
-				stocks = YahooFinance.get(tmp);
-				List<Stock> apiStockData = new ArrayList<>(stocks.values());
-				if (!ObjectUtils.isEmpty(apiStockData)) {
-					apiStockData.forEach(stock -> {
-						StockDetails stockDetails = new StockDetails();
-						stockDetails.setCompanyName(stock.getName());
-						stockDetails.setCurrentPrice(stock.getQuote().getPrice());
-						stockDetails.setSector(sector);
-						stockDetails.setSymbol(stock.getSymbol());
-						topGainer.add(stockDetails);
-					});
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
-
 		if (!topGainer.isEmpty()) {
 			topGainer.sort((s1, s2) -> {
 				if (s1 != null && s2 != null && s1.getCurrentPrice() != null && s2.getCurrentPrice() != null)
@@ -208,15 +59,61 @@ public class DashBoardServiceImpl implements DashboardService{
 				else
 					return 0;
 			});
+			try {				
+				int counter = 0;
+				while(counter < topGainer.size() && topGainer.get(counter).getSymbol() == null) {
+					counter ++;
+				}
+				Stock topGainerCompanyName = YahooFinance.get(topGainer.get(counter).getSymbol());
+				historyOfTopGainer = topGainerCompanyName.getHistory(from, to, Interval.DAILY);	
+			}
+			catch (IOException e) {
+
+			}
 		}
-		
 
-		
-
-		
-		return topGainer.get(0).getCompanyName();
+		return historyOfTopGainer;
 	}
 
+	public List<StockDetails> getStockData() {
+		List<StockDetails> stockData = new ArrayList<>();
+		Set<String> sectorList = sectorWiseCompanies.keySet();
+		Map<String, String> companySectorMap = new HashMap<String, String>();
+		try {
+			String[] allTmpStocks = new String[15*sectorList.size()];
+			int counter = 0;
+			for (String sector : sectorList) {
+				List<String> companyList = new ArrayList<>(sectorWiseCompanies.get(sector));
+				for (int i = 0; (i < companyList.size() && counter < allTmpStocks.length); i++) {
+					allTmpStocks[counter] = companyList.get(i);
+					companySectorMap.put(companyList.get(i), sector);
+					counter++;
+				}
+			}
+
+			try {
+				Map<String, Stock> stocks = YahooFinance.get(allTmpStocks);
+				List<Stock> apiStockData = new ArrayList<>(stocks.values());
+				if (!ObjectUtils.isEmpty(apiStockData)) {
+					apiStockData.forEach(stock -> {
+						StockDetails stockDetails = new StockDetails();
+						stockDetails.setCompanyName(stock.getName());
+						stockDetails.setSymbol(stock.getSymbol());
+						stockDetails.setCurrentPrice(stock.getQuote().getPrice());
+						stockDetails.setPercentageChange(stock.getQuote().getChangeInPercent());
+						stockDetails.setVolume(stock.getQuote().getVolume());
+						stockDetails.setSector(companySectorMap.get(stock.getSymbol()));
+						stockData.add(stockDetails);
+					});
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return stockData;
+
 	}
 
-
+}
